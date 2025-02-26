@@ -104,3 +104,52 @@ void loadCSVData(const string& filename, SchoolList& schoolList) {
     }
     file.close();
 }
+int main() {
+    SchoolList schoolList;
+    string filename = "schools.csv";
+    loadCSVData(filename, schoolList);
+
+    int choice;
+    string name;
+
+    do {
+        cout << "\nMenu:\n";
+        cout << "1. Display all schools\n";
+        cout << "2. Search for a school\n";
+        cout << "3. Delete a school\n";
+        cout << "4. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+        cin.ignore();
+
+        switch (choice) {
+            case 1:
+                schoolList.display();
+                break;
+            case 2:
+                cout << "Enter school name: ";
+                getline(cin, name);
+                if (School* school = schoolList.findByName(name)) {
+                    cout << "Found: " << school->name << ", " << school->address 
+                         << ", " << school->city << ", " << school->state 
+                         << ", " << school->county << endl;
+                } else {
+                    cout << "School not found.\n";
+                }
+                break;
+            case 3:
+                cout << "Enter school name to delete: ";
+                getline(cin, name);
+                schoolList.deleteByName(name);
+                cout << "School deleted.\n";
+                break;
+            case 4:
+                cout << "Exiting...\n";
+                break;
+            default:
+                cout << "Invalid choice. Try again.\n";
+        }
+    } while (choice != 4);
+
+    return 0;
+}
