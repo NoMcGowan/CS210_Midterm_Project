@@ -51,5 +51,47 @@ class SchoolBST {
         void displayInOrder() {
             inOrderHelper(root);
         }
-    };
     
+    School* findHelper(School* node, const string& name) {
+        if (!node || node->name == name) return node;
+        if (name < node->name)
+            return findHelper(node->left, name);
+        return findHelper(node->right, name);
+    }
+
+    School* deleteHelper(School* node, const string& name) {
+        if (!node) return nullptr;
+
+        if (name < node->name) {
+            node->left = deleteHelper(node->left, name);
+        } else if (name > node->name) {
+            node->right = deleteHelper(node->right, name);
+        } else {
+            if (!node->left) {
+                School* temp = node->right;
+                delete node;
+                return temp;
+            } else if (!node->right) {
+                School* temp = node->left;
+                delete node;
+                return temp;
+            }
+
+            School* minNode = node->right;
+            while (minNode->left) minNode = minNode->left;
+
+            node->name = minNode->name;
+            node->right = deleteHelper(node->right, minNode->name);
+        }
+        return node;
+    }
+
+public:
+    School* findByName(const string& name) {
+        return findHelper(root, name);
+    }
+
+    void deleteByName(const string& name) {
+        root = deleteHelper(root, name);
+    }
+};
