@@ -19,3 +19,37 @@ struct School {
 };
 
 void loadCSVData(const string& filename, class SchoolBST& bst);
+
+class SchoolBST {
+    private:
+        School* root;
+    
+        School* insertHelper(School* node, const School& school) {
+            if (!node) return new School(school);
+            if (school.name < node->name)
+                node->left = insertHelper(node->left, school);
+            else
+                node->right = insertHelper(node->right, school);
+            return node;
+        }
+    
+        void inOrderHelper(School* node) {
+            if (!node) return;
+            inOrderHelper(node->left);
+            cout << node->name << ", " << node->address << ", " << node->city
+                 << ", " << node->state << ", " << node->county << endl;
+            inOrderHelper(node->right);
+        }
+    
+    public:
+        SchoolBST() : root(nullptr) {}
+    
+        void insert(const School& school) {
+            root = insertHelper(root, school);
+        }
+    
+        void displayInOrder() {
+            inOrderHelper(root);
+        }
+    };
+    
