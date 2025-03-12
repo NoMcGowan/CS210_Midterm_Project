@@ -40,16 +40,38 @@ class SchoolBST {
                  << ", " << node->state << ", " << node->county << endl;
             inOrderHelper(node->right);
         }
-    
+ 
+        void preOrderHelper(School* node) {
+    if (!node) return;
+    cout << node->name << ", " << node->address << ", " << node->city
+         << ", " << node->state << ", " << node->county << endl;
+    preOrderHelper(node->left);
+    preOrderHelper(node->right);
+}
+
+void postOrderHelper(School* node) {
+    if (!node) return;
+    postOrderHelper(node->left);
+    postOrderHelper(node->right);
+    cout << node->name << ", " << node->address << ", " << node->city
+         << ", " << node->state << ", " << node->county << endl;
+}
+
     public:
         SchoolBST() : root(nullptr) {}
     
         void insert(const School& school) {
             root = insertHelper(root, school);
         }
-    
+
         void displayInOrder() {
             inOrderHelper(root);
+        }
+        void displayPreOrder() {
+            preOrderHelper(root);
+        }
+        void displayPostOrder() {
+            postOrderHelper(root);
         }
     
     School* findHelper(School* node, const string& name) {
@@ -117,4 +139,50 @@ void loadCSVData(const string& filename, SchoolBST& bst) {
             bst.insert(School(row[0], row[1], row[2], row[3], row[4]));
         }
     }
+}
+int main() {
+    SchoolBST bst;
+    string filename = "schools_new.csv";
+    loadCSVData(filename, bst);
+
+    int choice;
+    string name;
+
+    do {
+        cout << "\nMenu:\n";
+        cout << "1. Display in-order\n";
+        cout << "2. Display pre-order\n";
+        cout << "3. Display post-order\n";
+        cout << "4. Search for a school\n";
+        cout << "5. Delete a school\n";
+        cout << "6. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+        cin.ignore();
+
+        switch (choice) {
+            case 1: bst.displayInOrder(); break;
+            case 2: bst.displayPreOrder(); break;
+            case 3: bst.displayPostOrder(); break;
+            case 4:
+                cout << "Enter school name: ";
+                getline(cin, name);
+                if (bst.findByName(name)) {
+                    cout << "School found: " << name << endl;
+                } else {
+                    cout << "School not found.\n";
+                }
+                break;
+            case 5:
+                cout << "Enter school name to delete: ";
+                getline(cin, name);
+                bst.deleteByName(name);
+                cout << "School deleted.\n";
+                break;
+            case 6: cout << "Exiting...\n"; break;
+            default: cout << "Invalid choice.\n";
+        }
+    } while (choice != 6);
+
+    return 0;
 }
