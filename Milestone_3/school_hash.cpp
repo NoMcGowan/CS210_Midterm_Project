@@ -73,4 +73,15 @@ class SchoolHashTable {
             }
         }
     };
+    void loadCSVData(const string& filename,SchoolHashTable& bst){
+        ifstream file(filename);string line,word;
+        if(!file.is_open()){cerr<<"Error: Could not open file "<<filename<<endl;return;}
+        getline(file,line);
+        while(getline(file,line)){
+            stringstream ss(line);vector<string> row;
+            while(getline(ss,word,','))row.push_back(word);
+            if(row.size()==5)bst.insert(School(row[0],row[1],row[2],row[3],row[4]));
+        }
+    }
+
     
