@@ -83,5 +83,52 @@ class SchoolHashTable {
             if(row.size()==5)bst.insert(School(row[0],row[1],row[2],row[3],row[4]));
         }
     }
+    int main() {
+        SchoolHashTable ht;
+        string filename = "schools.csv";
+        loadCSVData(filename, ht);
+    
+        int choice;
+        string name;
+    
+        do {
+            cout << "\nMenu:\n";
+            cout << "1. Display all schools\n";
+            cout << "2. Search for a school\n";
+            cout << "3. Delete a school\n";
+            cout << "4. Exit\n";
+            cout << "Enter choice: ";
+            cin >> choice;
+            cin.ignore();
+    
+            switch (choice) {
+                case 1:
+                    ht.display();
+                    break;
+                case 2:
+                    cout << "Enter school name: ";
+                    getline(cin, name);
+                    if (ht.findByName(name)) {
+                        cout << "School found: " << name << endl;
+                    } else {
+                        cout << "School not found.\n";
+                    }
+                    break;
+                case 3:
+                    cout << "Enter school name to delete: ";
+                    getline(cin, name);
+                    ht.deleteByName(name);
+                    break;
+                case 4:
+                    cout << "Exiting...\n";
+                    break;
+                default:
+                    cout << "Invalid choice.\n";
+            }
+        } while (choice != 4);
+    
+        return 0;
+    }
+    
 
     
