@@ -103,7 +103,7 @@ public:
 // ---------------- Hash Table ----------------
 class SchoolHashTable {
     static const int SIZE = 100;
-    vector<list<School>> table;
+    vector<list<School> > table;
 
     int hashFunction(const string& key) {
         int hash = 0;
@@ -142,7 +142,7 @@ vector<School> loadCSV(const string& filename) {
     vector<School> schools;
     ifstream file(filename);
     string line, word;
-    getline(file, line); // skip header
+    getline(file, line); 
     while (getline(file, line)) {
         stringstream ss(line);
         vector<string> row;
@@ -154,9 +154,9 @@ vector<School> loadCSV(const string& filename) {
 
 // ---------------- Main: Runtime Testing ----------------
 int main() {
-    string filename = "USA_Schools.csv";
+    string filename = "Illinois_Schools.csv";
     vector<School> data = loadCSV(filename);
-    string target = data[data.size() / 2].name; // pick a middle one for search/delete
+    string target = data[data.size() / 2].name; 
 
     // Linked List
     SchoolList ll;
